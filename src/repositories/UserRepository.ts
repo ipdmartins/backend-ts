@@ -1,45 +1,43 @@
-import { User, UserProps } from '../entities/user';
-import db from '../utils/sqliteConnections';
-import { IUserRepository } from './IRepositories/IUserRepository';
+import { AxiosResponse } from "axios";
+import { User, UserProps } from "../entities/user";
+import axiosInstance from "../utils/conn";
+import { IUserRepository } from "./IRepositories/IUserRepository";
 
 export default class UserRepository implements IUserRepository {
-	public async create({
-		clientId,
-		hostId,
-		type,
-		description,
-		initial_date,
-		final_date,
-	}: UserProps): Promise<User> {
-		const userData = {
-			clientId,
-			hostId,
-			type,
-			description,
-			initial_date,
-			final_date,
-		};
-		const user = new User(userData);
+  public async create({
+    givenName,
+    familyName,
+    phone,
+    email,
+    password,
+  }: UserProps): Promise<User> {
+    const userData = {
+      givenName,
+      familyName,
+      phone,
+      email,
+      password,
+    };
+    const user = new User(userData);
 
-		const stmt = db.prepare(`INSERT INTO user VALUES (?,?,?,?,?,?,?)`);
-		stmt.run(
-			user.getId,
-			user.getClientId,
-			user.getHostId,
-			user.getType,
-			user.getDescription,
-			user.getInitialDate,
-			user.getFinalDate
-		);
+    try {
+      await axiosInstance.post("/users", user);
+    } catch (error) {
+      console.error("Error adding user:", error);
+      throw error;
+    }
 
-		return user;
-	}
+    return user;
+  }
 
-	public async listAll(): Promise<User[]> {
-		const stmt = db.prepare('SELECT * FROM user');
+  public async listAll(): Promise<User[]> {
+    try {
+      const response: AxiosResponse<User[]> = await axiosInstance.get("/users");
 
-		const users = stmt.all() as User[];
-
-		return users;
-	}
+      return response.data;
+    } catch (error) {
+      console.error("Error adding user:", error);
+      throw error;
+    }
+  }
 }

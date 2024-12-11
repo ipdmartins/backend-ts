@@ -1,52 +1,50 @@
-import * as crypto from 'crypto';
+import * as crypto from "crypto";
 
 export type UserProps = {
-	clientId: String;
-	hostId: String;
-	type: String;
-	description: String;
-	initial_date: String;
-	final_date: String;
+  givenName: String;
+  familyName: String;
+  phone: String;
+  email: String;
+  password: String;
 };
 
 export class User {
-	private uuid: string;
-	private clientId: String;
-	private hostId: String;
-	private type: String;
-	private description: String;
-	private initial_date: String;
-	private final_date: String;
+  private uuid: string;
+  private givenName: String;
+  private familyName: String;
+  private phone: String;
+  private email: String;
+  private password: String;
+  private createdAt: Date;
+  private updatedAt: Date;
 
-	public constructor(data: UserProps) {
-		this.uuid = crypto.randomUUID();
-		this.clientId = data.clientId;
-		this.hostId = data.hostId;
-		this.type = data.type;
-		this.description = data.description;
-		this.initial_date = data.initial_date;
-		this.final_date = data.final_date;
-	}
+  public constructor(data: UserProps) {
+    this.uuid = crypto.randomUUID();
+    this.givenName = data.givenName;
+    this.familyName = data.familyName;
+    this.phone = data.phone;
+    this.email = data.email;
+    this.password = data.password;
+    this.createdAt = new Date();
+    this.updatedAt = new Date();
+  }
 
-	get getId() {
-		return this.uuid;
-	}
-	get getClientId() {
-		return this.clientId;
-	}
-	get getHostId() {
-		return this.hostId;
-	}
-	get getType() {
-		return this.type;
-	}
-	get getDescription() {
-		return this.description;
-	}
-	get getInitialDate() {
-		return this.initial_date;
-	}
-	get getFinalDate() {
-		return this.final_date;
-	}
+  get getId() {
+    return this.uuid;
+  }
+  get getgivenName() {
+    return this.givenName;
+  }
+  get getfamilyName() {
+    return this.familyName;
+  }
+  get getphone() {
+    return this.phone;
+  }
+  get getemail() {
+    return this.email;
+  }
+  get getPassword() {
+    return this.password;
+  }
 }
