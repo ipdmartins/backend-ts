@@ -1,7 +1,7 @@
 import { AxiosResponse } from "axios";
 import { User, UserProps } from "../entities/user";
 import axiosInstance from "../utils/conn";
-import { IUserRepository } from "./IRepositories/IUserRepository";
+import { FilteredUser, IUserRepository } from "./IRepositories/IUserRepository";
 
 export default class UserRepository implements IUserRepository {
   public async create({
@@ -28,6 +28,19 @@ export default class UserRepository implements IUserRepository {
     }
 
     return user;
+  }
+
+  public async findByEmail(email: String): Promise<FilteredUser | null> {
+    try {
+      const response: AxiosResponse<FilteredUser[]> = await axiosInstance.get(
+        `/users?email=${email}`
+      );
+
+      return response.data[0];
+    } catch (error) {
+      console.error("Error adding user:", error);
+      throw error;
+    }
   }
 
   public async listAll(): Promise<User[]> {
