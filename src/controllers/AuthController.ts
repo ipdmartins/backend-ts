@@ -32,8 +32,6 @@ export default class AuthController {
           .json({ message: "Invalid email or password" });
       }
 
-      console.log(token);
-
       return response.status(201).json(token);
     } catch (error) {
       console.error(error);

@@ -1,11 +1,11 @@
 import { User, UserProps } from "../../entities/user";
 
 export type FilteredUser = {
-  uuid: string;
-  givenName: string;
-  familyName: string;
-  email: string;
-  password: string;
+  uuid: String;
+  givenName: String;
+  familyName: String;
+  email: String;
+  password: String;
 };
 
 export interface IUserRepository {

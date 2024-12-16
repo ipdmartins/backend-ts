@@ -12,7 +12,11 @@ export default class AuthUserService {
 
     if (!user) return null;
 
-    const isValidPassword = bcrypt.compare(password, String(user.password));
+    const isValidPassword = await bcrypt.compare(
+      password,
+      String(user.password)
+    );
+
     if (!isValidPassword) return null;
 
     const token = jwt.sign({ id: user.uuid, email: user.email }, "secret_key", {

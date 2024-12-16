@@ -36,6 +36,10 @@ export default class UserRepository implements IUserRepository {
         `/users?email=${email}`
       );
 
+      if (response.data.length < 1) {
+        return null;
+      }
+
       return response.data[0];
     } catch (error) {
       console.error("Error adding user:", error);

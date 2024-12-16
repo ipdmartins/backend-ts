@@ -1,5 +1,8 @@
 import { UserProps, User } from "../../entities/user";
-import { IUserRepository } from "../IRepositories/IUserRepository";
+import {
+  FilteredUser,
+  IUserRepository,
+} from "../IRepositories/IUserRepository";
 import { ErrorHandler } from "./errorHandler/errorHandler";
 
 export default class InMemoryUserRepository implements IUserRepository {
@@ -35,6 +38,29 @@ export default class InMemoryUserRepository implements IUserRepository {
         throw new ErrorHandler(500, "Failed to create user");
       }
       throw new Error((error as Error).message);
+    }
+  }
+
+  public async findByEmail(email: String): Promise<FilteredUser | null> {
+    try {
+      const response = this.userList.filter((item) => item.getemail == email);
+
+      if (response.length < 1) {
+        return null;
+      }
+
+      const data = {
+        uuid: response[0].getId,
+        givenName: response[0].getgivenName,
+        familyName: response[0].getfamilyName,
+        email: response[0].getemail,
+        password: response[0].getPassword,
+      };
+
+      return data;
+    } catch (error) {
+      console.error("Error adding user:", error);
+      throw error;
     }
   }
 

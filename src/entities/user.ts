@@ -9,7 +9,7 @@ export type UserProps = {
 };
 
 export class User {
-  private uuid: string;
+  private uuid: String;
   private givenName: String;
   private familyName: String;
   private phone: String;
