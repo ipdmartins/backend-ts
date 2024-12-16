@@ -11,7 +11,7 @@ on:
       - "jsonServer" # Run workflow for PRs targeting 'main'
 
 jobs:
-  build:
+  tests:
     runs-on: ubuntu-latest
 
     steps:
