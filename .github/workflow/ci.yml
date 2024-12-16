@@ -29,6 +29,11 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+      - name: Start JSON Server
+        run: npx json-server db.json
+        env:
+          PORT: 3000
+
       # Step 4: Run tests
       - name: Run tests
         run: npm run test
