@@ -4,14 +4,14 @@ on:
   push:
     branches:
       - "main" # Trigger workflow on pushes to the 'main' branch
-      - "jsonServer" # Trigger workflow on pushes to the 'main' branch
+      - "jsonServer"
   pull_request:
     branches:
-      - "main" # Run workflow for PRs targeting 'main'
-      - "jsonServer" # Run workflow for PRs targeting 'main'
+      - "main" # Run workflow for PR targeting 'main'
+      - "jsonServer"
 
 jobs:
-  build:
+  tests:
     runs-on: ubuntu-latest
 
     steps:
@@ -28,6 +28,14 @@ jobs:
       # Step 3: Install dependencies
       - name: Install dependencies
         run: npm install
+
+      - name: Set environment variables
+        env:
+          EMAIL_USER: ${{ secrets.EMAIL_USER }}
+          EMAIL_PASS: ${{ secrets.EMAIL_PASS }}
+        run: |
+          echo EMAIL_USER=${EMAIL_USER} >> .env
+          echo EMAIL_PASS=${EMAIL_PASS} >> .env
 
       # Step 4: Run tests
       - name: Run tests

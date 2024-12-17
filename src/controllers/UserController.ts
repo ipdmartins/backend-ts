@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import CreateUserService from "../services/createUserService";
-import ListAllUsersService from "../services/listAllUsersService";
+import CreateUserService from "../services/CreateUserService";
+import ListAllUsersService from "../services/ListAllUsersService";
 import UserRepository from "../repositories/UserRepository";
 
 export default class UserController {
@@ -17,7 +17,8 @@ export default class UserController {
   }
 
   public async create(request: Request, response: Response): Promise<Response> {
-    const { givenName, familyName, phone, email, password } = request.body;
+    const { givenName, familyName, phone, email, password } = request.body.data;
+    console.log(request.body.data);
 
     // Validate input
     if (!givenName || !familyName || !phone || !email || !password) {
