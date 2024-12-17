@@ -17,7 +17,8 @@ export default class UserController {
   }
 
   public async create(request: Request, response: Response): Promise<Response> {
-    const { givenName, familyName, phone, email, password } = request.body;
+    const { givenName, familyName, phone, email, password } = request.body.data;
+    console.log(request.body.data);
 
     // Validate input
     if (!givenName || !familyName || !phone || !email || !password) {
