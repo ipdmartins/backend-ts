@@ -2,17 +2,17 @@ import { Request, Response } from "express";
 import UserRepository from "../repositories/UserRepository";
 import NodeMailerService from "../services/NodeMailerService";
 
-export default class PassResetController {
+export default class NewActivationController {
   private nodeMailerService: NodeMailerService;
   private userRepository: UserRepository;
 
   constructor() {
     this.userRepository = new UserRepository();
     this.nodeMailerService = new NodeMailerService(this.userRepository);
-    this.resetPass = this.resetPass.bind(this);
+    this.sendActivation = this.sendActivation.bind(this);
   }
 
-  public async resetPass(
+  public async sendActivation(
     request: Request,
     response: Response
   ): Promise<Response> {
@@ -21,19 +21,21 @@ export default class PassResetController {
     if (!email) {
       return response
         .status(400)
-        .json({ error: "Missing email to reset password" });
+        .json({ error: "Missing email to send activation" });
     }
 
     try {
-      const resp = await this.nodeMailerService.execute(email, true);
+      const resp = await this.nodeMailerService.execute(email, false);
       if (!resp) {
         return response.status(401).json({ message: "Invalid email" });
       }
 
-      return response.status(201).json({ message: "Email sent successfully" });
+      return response
+        .status(201)
+        .json({ message: "Activation sent successfully" });
     } catch (error) {
       console.error(error);
-      return response.status(500).json({ error: "Failed to reset password" });
+      return response.status(500).json({ error: "Failed to send activation" });
     }
   }
 }

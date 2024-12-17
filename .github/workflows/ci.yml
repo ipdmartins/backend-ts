@@ -4,11 +4,11 @@ on:
   push:
     branches:
       - "main" # Trigger workflow on pushes to the 'main' branch
-      - "jsonServer" # Trigger workflow on pushes to the 'main' branch
+      - "jsonServer"
   pull_request:
     branches:
       - "main" # Run workflow for PR targeting 'main'
-      - "jsonServer" # Run workflow for PRs targeting 'main'
+      - "jsonServer"
 
 jobs:
   tests:

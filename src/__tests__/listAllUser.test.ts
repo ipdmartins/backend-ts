@@ -1,6 +1,6 @@
 import InMemoryUserRepository from "../repositories/inMemoryRepositories/InMemoryUserRepository";
-import CreateUserService from "../services/createUserService";
-import ListAllUsersService from "../services/listAllUsersService";
+import CreateUserService from "../services/CreateUserService";
+import ListAllUsersService from "../services/ListAllUsersService";
 
 describe("List user service", () => {
   let inMemoryRepo: InMemoryUserRepository;

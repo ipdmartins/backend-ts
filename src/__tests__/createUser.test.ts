@@ -1,6 +1,6 @@
 import InMemoryUserRepository from "../repositories/inMemoryRepositories/InMemoryUserRepository";
 import { ErrorHandler } from "../repositories/inMemoryRepositories/errorHandler/errorHandler";
-import CreateUserService from "../services/createUserService";
+import CreateUserService from "../services/CreateUserService";
 
 describe("Create user service", () => {
   let createUserService: CreateUserService;
