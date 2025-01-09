@@ -1,7 +1,4 @@
 import { Request, Response } from "express";
-import CreateUserService from "../services/CreateUserService";
-import ListAllUsersService from "../services/ListAllUsersService";
-import UserRepository from "../repositories/UserRepository";
 import { InMemoryCoordinateRepository } from "../repositories/inMemoryRepositories/inMemoryCoordinateRepository";
 import { CreateCoordinateService } from "../services/CreateCoordinateService";
 import { ListCoordinatesService } from "../services/ListCoordinatesService";
@@ -43,9 +40,7 @@ export default class CoordinateController {
       return response.json(coordinates);
     } catch (error) {
       console.error(error);
-      return response
-        .status(500)
-        .json({ error: "Failed to create coordinate" });
+      return response.status(500).json({ error: "Failed to list coordinates" });
     }
   }
 }

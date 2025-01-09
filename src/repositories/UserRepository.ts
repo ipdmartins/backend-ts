@@ -1,33 +1,16 @@
 import { AxiosResponse } from "axios";
-import { User, UserProps } from "../entities/user";
+import { User } from "../entities/user";
 import axiosInstance from "../utils/conn";
 import { FilteredUser, IUserRepository } from "./IRepositories/IUserRepository";
 
 export default class UserRepository implements IUserRepository {
-  public async create({
-    givenName,
-    familyName,
-    phone,
-    email,
-    password,
-  }: UserProps): Promise<User> {
-    const userData = {
-      givenName,
-      familyName,
-      phone,
-      email,
-      password,
-    };
-    const user = new User(userData);
-
+  public async create(user: User): Promise<void> {
     try {
       await axiosInstance.post("/users", user);
     } catch (error) {
       console.error("Error adding user:", error);
       throw error;
     }
-
-    return user;
   }
 
   public async findByEmail(email: String): Promise<FilteredUser | null> {
