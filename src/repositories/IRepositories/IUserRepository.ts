@@ -1,4 +1,4 @@
-import { User, UserProps } from "../../entities/user";
+import { User } from "../../entities/user";
 
 export type FilteredUser = {
   uuid: String;
@@ -9,7 +9,7 @@ export type FilteredUser = {
 };
 
 export interface IUserRepository {
-  create(data: UserProps): Promise<User>;
+  create(data: User): Promise<void>;
   findByEmail(email: String): Promise<FilteredUser | null>;
   listAll(): Promise<User[]>;
 }

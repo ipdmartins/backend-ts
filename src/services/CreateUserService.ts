@@ -1,5 +1,5 @@
 import bcrypt from "bcrypt";
-import { UserProps } from "../entities/user";
+import { User, UserProps } from "../entities/user";
 import UserRepository from "../repositories/UserRepository";
 
 export default class CreateUserService {
@@ -11,7 +11,7 @@ export default class CreateUserService {
     const salt = await bcrypt.genSalt();
     const newPass = await bcrypt.hash(String(password), salt);
 
-    const user = await this.userRepository.create({
+    const user = new User({
       givenName,
       familyName,
       phone,
@@ -19,6 +19,8 @@ export default class CreateUserService {
       password: newPass,
     });
 
-    return user;
+    await this.userRepository.create(user);
+
+    return user.toJSON();
   }
 }

@@ -8,31 +8,9 @@ import { ErrorHandler } from "./errorHandler/errorHandler";
 export default class InMemoryUserRepository implements IUserRepository {
   private userList: User[] = [];
 
-  async create({
-    givenName,
-    familyName,
-    phone,
-    email,
-    password,
-  }: UserProps): Promise<User> {
-    // Validate input
-    if (!givenName || !familyName || !phone || !email || !password) {
-      throw new ErrorHandler(400, "Missing parameters to create a user");
-    }
-
-    const data = {
-      givenName,
-      familyName,
-      phone,
-      email,
-      password,
-    };
-
+  async create(data: User): Promise<void> {
     try {
-      const newUser = new User(data);
-      this.userList.push(newUser);
-
-      return newUser;
+      this.userList.push(data);
     } catch (error) {
       if (error instanceof ErrorHandler) {
         throw new ErrorHandler(500, "Failed to create user");
@@ -43,18 +21,20 @@ export default class InMemoryUserRepository implements IUserRepository {
 
   public async findByEmail(email: String): Promise<FilteredUser | null> {
     try {
-      const response = this.userList.filter((item) => item.getemail == email);
+      const response = this.userList.filter(
+        (item) => item.props.email == email
+      );
 
       if (response.length < 1) {
         return null;
       }
 
       const data = {
-        uuid: response[0].getId,
-        givenName: response[0].getgivenName,
-        familyName: response[0].getfamilyName,
-        email: response[0].getemail,
-        password: response[0].getPassword,
+        uuid: response[0].uuid,
+        givenName: response[0].props.givenName,
+        familyName: response[0].props.familyName,
+        email: response[0].props.email,
+        password: response[0].props.password,
       };
 
       return data;
