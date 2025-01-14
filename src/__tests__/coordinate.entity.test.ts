@@ -1,6 +1,6 @@
 import { CoordinateProps, Coordinate } from "../entities/coordinate";
 
-describe("testing route entity", () => {
+describe("testing coordinate entity", () => {
   test("constructor", () => {
     let coordinateProps: CoordinateProps = {
       title: "my route",

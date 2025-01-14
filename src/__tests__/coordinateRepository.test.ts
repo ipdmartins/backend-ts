@@ -31,7 +31,7 @@ describe("testing coordinate repository", () => {
 
     expect(repository.items).toHaveLength(1);
     expect(resp).toStrictEqual({
-      uuid: repository.items[0].uuid,
+      uuid: repository.items[0].coordinate_id,
       title: "my route",
       startPosition: { lat: 0, lng: 1 },
       endPosition: { lat: 2, lng: 3 },

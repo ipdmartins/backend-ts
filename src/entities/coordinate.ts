@@ -9,15 +9,25 @@ export type CoordinateProps = {
 };
 
 export class Coordinate {
-  public readonly uuid: string;
+  public readonly coordinate_id: string;
   public props: Required<CoordinateProps>;
 
-  constructor(props: CoordinateProps) {
-    this.uuid = crypto.randomUUID();
+  private constructor(props: CoordinateProps) {
+    this.coordinate_id = crypto.randomUUID();
+
+    if (!props) {
+      //@ts-expect-error use for ORM
+      this.props = {};
+      return;
+    }
     this.props = {
       ...props,
       points: props.points || [],
     };
+  }
+
+  static create(props: CoordinateProps) {
+    return new Coordinate(props);
   }
 
   // it can run business rules
@@ -30,7 +40,7 @@ export class Coordinate {
   }
 
   get getUuid() {
-    return this.uuid;
+    return this.coordinate_id;
   }
 
   get getTitle() {
@@ -39,7 +49,7 @@ export class Coordinate {
 
   toJSON() {
     return {
-      uuid: this.uuid,
+      uuid: this.coordinate_id,
       ...this.props,
     };
   }

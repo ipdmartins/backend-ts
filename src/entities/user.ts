@@ -9,13 +9,13 @@ export type UserProps = {
 };
 
 export class User {
-  public readonly uuid: string;
+  public readonly user_id: string;
   public props: Required<UserProps>;
   private createdAt: Date;
   private updatedAt: Date;
 
   public constructor(data: UserProps) {
-    this.uuid = crypto.randomUUID();
+    this.user_id = crypto.randomUUID();
     this.props = {
       ...data,
     };
@@ -25,7 +25,7 @@ export class User {
 
   toJSON() {
     return {
-      uuid: this.uuid,
+      uuid: this.user_id,
       createdAt: this.createdAt,
       updatedAt: this.updatedAt,
       ...this.props,
