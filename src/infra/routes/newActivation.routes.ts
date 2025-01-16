@@ -1,5 +1,5 @@
 import { Router } from "express";
-import NewActivationController from "../controllers/NewActivationController";
+import NewActivationController from "../../controllers/NewActivationController";
 
 const newActivationRouter = Router();
 

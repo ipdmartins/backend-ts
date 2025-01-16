@@ -12,7 +12,7 @@ export class CreateCoordinateService {
   constructor(private coordinateRepo: ICoordinateRepository) {}
 
   async execute(data: CreateCoordinateProps): Promise<CreateCoordinateProps> {
-    const coordinate = new Coordinate(data);
+    const coordinate = await Coordinate.create(data);
     await this.coordinateRepo.create(coordinate);
     return coordinate.toJSON();
   }

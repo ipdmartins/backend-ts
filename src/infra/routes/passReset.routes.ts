@@ -1,5 +1,5 @@
 import { Router } from "express";
-import PassResetController from "../controllers/PassResetController";
+import PassResetController from "../../controllers/PassResetController";
 
 const passResetRouter = Router();
 

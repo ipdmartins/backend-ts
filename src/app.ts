@@ -1,10 +1,10 @@
 import express, { Application, json } from "express";
 import cors from "cors";
-import userRouter from "./routes/user.routes";
-import authRouter from "./routes/auth.routes";
-import passResetRouter from "./routes/passReset.routes";
-import newActivationRouter from "./routes/newActivation.routes";
-import coordinateRouter from "./routes/coordinate.routes";
+import userRouter from "./infra/routes/user.routes";
+import authRouter from "./infra/routes/auth.routes";
+import passResetRouter from "./infra/routes/passReset.routes";
+import newActivationRouter from "./infra/routes/newActivation.routes";
+import coordinateRouter from "./infra/routes/coordinate.routes";
 
 const app: Application = express();
 const port = process.env.PORT || 3333;

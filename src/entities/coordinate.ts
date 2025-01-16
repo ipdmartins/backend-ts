@@ -10,23 +10,29 @@ export type CoordinateProps = {
 
 export class Coordinate {
   public readonly coordinate_id: string;
-  public props: Required<CoordinateProps>;
+  public title: string;
+  public startPosition: LatLng;
+  public endPosition: LatLng;
+  public points?: LatLng[];
 
   private constructor(props: CoordinateProps) {
     this.coordinate_id = crypto.randomUUID();
 
     if (!props) {
-      //@ts-expect-error use for ORM
+      //@ts-expect-error used for ORM
       this.props = {};
       return;
     }
-    this.props = {
-      ...props,
-      points: props.points || [],
-    };
+    this.title = props.title;
+    this.startPosition = props.startPosition;
+    this.endPosition = props.endPosition;
+    this.points = props.points || [];
   }
 
-  static create(props: CoordinateProps) {
+  static async create(props: CoordinateProps) {
+    if (!props.title || !props.startPosition || !props.endPosition) {
+      throw new Error("Missing required properties");
+    }
     return new Coordinate(props);
   }
 
@@ -35,22 +41,13 @@ export class Coordinate {
     this.title = title;
   }
 
-  private set title(value: string) {
-    this.props.title = value;
-  }
-
-  get getUuid() {
-    return this.coordinate_id;
-  }
-
-  get getTitle() {
-    return this.props.title;
-  }
-
   toJSON() {
     return {
-      uuid: this.coordinate_id,
-      ...this.props,
+      coordinate_id: this.coordinate_id,
+      title: this.title,
+      startPosition: this.startPosition,
+      endPosition: this.endPosition,
+      points: this.points,
     };
   }
 }

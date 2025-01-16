@@ -1,20 +1,35 @@
 import { DataSource } from "typeorm";
-import { CoordinateSchema } from "../db/typeorm/coordinate.schema";
+import { CoordinateSchema } from "../infra/db/typeorm/coordinate.schema";
 import { Coordinate } from "../entities/coordinate";
+import dotenv from "dotenv";
 
 describe("testing coordinate schema", () => {
-  test("create", async () => {
-    const dataSource = new DataSource({
-      type: "postgres",
+  let dataSource = null as any;
+  beforeAll(async () => {
+    dataSource = new DataSource({
+      type: "sqlite",
       database: ":memory:",
       synchronize: true,
       logging: true,
       entities: [CoordinateSchema],
     });
+    // dataSource = new DataSource({
+    //   type: "postgres",
+    //   host: "localhost",
+    //   port: 5432,
+    //   username: "postgres", // From .env file
+    //   password: "postgres", // From .env file
+    //   database: "test_db_pg", // From .env file
+    //   synchronize: true,
+    //   logging: true,
+    //   entities: [CoordinateSchema],
+    // });
 
     await dataSource.initialize();
+  });
 
-    const coord = Coordinate.create({
+  test("create", async () => {
+    const coord = await Coordinate.create({
       title: "my coord",
       startPosition: { lat: 1, lng: 2 },
       endPosition: { lat: 2, lng: 4 },

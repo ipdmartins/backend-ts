@@ -1,21 +1,27 @@
 import { Request, Response } from "express";
-import { InMemoryCoordinateRepository } from "../repositories/inMemoryRepositories/inMemoryCoordinateRepository";
 import { CreateCoordinateService } from "../services/CreateCoordinateService";
 import { ListCoordinatesService } from "../services/ListCoordinatesService";
+import { CoordinateRepository } from "../repositories/CoordianteRepository";
 
 export default class CoordinateController {
-  private inMemoryCoordinateRepository: InMemoryCoordinateRepository;
+  private coordinateRepository: CoordinateRepository;
   private createCoordinateService: CreateCoordinateService;
   private listCoordinatesService: ListCoordinatesService;
 
-  constructor() {
-    this.inMemoryCoordinateRepository = new InMemoryCoordinateRepository();
+  constructor(coordinateRepository: CoordinateRepository) {
+    this.coordinateRepository = coordinateRepository;
+    console.log("criando createCoordinateService");
+
     this.createCoordinateService = new CreateCoordinateService(
-      this.inMemoryCoordinateRepository
+      this.coordinateRepository
     );
+    console.log(this.createCoordinateService);
+
     this.listCoordinatesService = new ListCoordinatesService(
-      this.inMemoryCoordinateRepository
+      this.coordinateRepository
     );
+    this.create = this.create.bind(this);
+    this.list = this.list.bind(this);
   }
 
   public async create(request: Request, response: Response): Promise<Response> {

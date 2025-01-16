@@ -23,3 +23,12 @@
 - **`services`**: Contains the business logic of the application. It processes data, handles use cases, and interacts with repositories to fetch or persist data.
 
 - **`utils`**: Provides utility functions, helpers, or shared modules, such as configuration for external services (e.g., database connections, email setups).
+
+create a container pg:
+sudo docker run -d --name node-postgres-demo -e POSTGRES_PASSWORD=postgres -e POSTGRES_USER=postgres -e POSTGRES_DB=test_db_pg -p 5432:5432 postgres
+docker-compose up -d : start service
+docker ps : list service
+psql -h localhost -U myuser -d mydatabase -W or
+browser and go to http://localhost:5050 for pgadmin
+docker-compose down - stop service
+docker-compose down --volumes : to remove volumes
