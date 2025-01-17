@@ -27,10 +27,39 @@ jobs:
         env:
           EMAIL_USER: ${{ secrets.EMAIL_USER }}
           EMAIL_PASS: ${{ secrets.EMAIL_PASS }}
+          DB_USER: ${{ secrets.DB_USER }}
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          DB_NAME: ${{ secrets.DB_NAME }}
         run: |
           echo EMAIL_USER=${EMAIL_USER} >> .env
           echo EMAIL_PASS=${EMAIL_PASS} >> .env
+          echo DB_USER=${DB_USER} >> .env
+          echo DB_PASSWORD=${DB_PASSWORD} >> .env
+          echo DB_NAME=${DB_NAME} >> .env
+
+      - name: Start Docker Compose
+        run: docker-compose up -d
+        env:
+          DB_USER: ${{ secrets.DB_USER }}
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          DB_NAME: ${{ secrets.DB_NAME }}
+      - name: Wait for PostgreSQL
+        run: |
+          for i in {1..10}; do
+            nc -z localhost 5432 && echo "PostgreSQL is ready" && exit 0
+            echo "Waiting for PostgreSQL..."
+            sleep 5
+          done
+          echo "PostgreSQL did not become ready in time" && exit 1
+
+      # Step 7: Run migrations (if applicable)
+      - name: Run database migrations
+        run: npm run migrate
 
       # Step 4: Run tests
       - name: Run tests
         run: npm run test
+
+      - name: Stop Docker Compose
+        if: always()
+        run: docker-compose down
