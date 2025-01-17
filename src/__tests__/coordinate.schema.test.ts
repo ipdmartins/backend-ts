@@ -1,29 +1,24 @@
 import { DataSource } from "typeorm";
+import { CoordinateRepository } from "../repositories/CoordianteRepository";
 import { CoordinateSchema } from "../infra/db/typeorm/coordinate.schema";
 import { Coordinate } from "../entities/coordinate";
 import dotenv from "dotenv";
+dotenv.config();
 
 describe("testing coordinate schema", () => {
   let dataSource = null as any;
   beforeAll(async () => {
     dataSource = new DataSource({
-      type: "sqlite",
-      database: ":memory:",
+      type: "postgres",
+      host: "localhost",
+      port: 5432,
+      username: process.env.DB_USER,
+      password: process.env.DB_PASSWORD,
+      database: process.env.DB_NAME,
       synchronize: true,
-      logging: true,
+      logging: false,
       entities: [CoordinateSchema],
     });
-    // dataSource = new DataSource({
-    //   type: "postgres",
-    //   host: "localhost",
-    //   port: 5432,
-    //   username: "postgres", // From .env file
-    //   password: "postgres", // From .env file
-    //   database: "test_db_pg", // From .env file
-    //   synchronize: true,
-    //   logging: true,
-    //   entities: [CoordinateSchema],
-    // });
 
     await dataSource.initialize();
   });
@@ -36,7 +31,13 @@ describe("testing coordinate schema", () => {
       points: [{ lat: 3, lng: 4 }],
     });
 
-    const routeRepo = dataSource.getRepository(Coordinate);
-    await routeRepo.save(coord);
+    const ormRepo = dataSource.getRepository(Coordinate);
+    const coordRepo = new CoordinateRepository(ormRepo);
+    await coordRepo.create(coord);
+
+    const foundCoord = await ormRepo.findOneBy({
+      coordinate_id: coord.coordinate_id,
+    });
+    expect(foundCoord.toJSON()).toStrictEqual(coord.toJSON());
   });
 });

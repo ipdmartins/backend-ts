@@ -2,7 +2,7 @@ import { LatLng } from "../entities/coordinate";
 import { ICoordinateRepository } from "../repositories/IRepositories/ICoordinateRepository";
 
 type CreateCoordinateOutput = {
-  uuid: string;
+  coordinate_id: string;
   title: string;
   startPosition: LatLng;
   endPosition: LatLng;

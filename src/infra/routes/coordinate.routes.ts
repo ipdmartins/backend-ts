@@ -10,10 +10,7 @@ AppDataSource.initialize()
   .then(() => {
     const ormRepository = AppDataSource.getRepository(Coordinate);
     const coordinateRepository = new CoordinateRepository(ormRepository);
-    console.log("criando controller");
-
     const coordinateController = new CoordinateController(coordinateRepository);
-    console.log("criou controller");
 
     coordinateRouter.post("/", coordinateController.create);
     coordinateRouter.get("/", coordinateController.list);
