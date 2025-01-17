@@ -1,7 +1,7 @@
-import { CoordinateProps, Coordinate } from "../entities/coordinate";
 import { InMemoryCoordinateRepository } from "../repositories/inMemoryRepositories/inMemoryCoordinateRepository";
 import { CreateCoordinateService } from "../services/CreateCoordinateService";
 import { ListCoordinatesService } from "../services/ListCoordinatesService";
+import { CoordinateProps } from "../entities/coordinate";
 
 describe("testing coordinate repository", () => {
   test("it should create a new coordinate using the service", async () => {

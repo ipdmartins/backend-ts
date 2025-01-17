@@ -1,8 +1,7 @@
-import { UserProps } from "../entities/user";
 import InMemoryUserRepository from "../repositories/inMemoryRepositories/InMemoryUserRepository";
 import { ErrorHandler } from "../repositories/inMemoryRepositories/errorHandler/errorHandler";
-import CreateUserService from "../services/CreateUserService";
 import ListAllUsersService from "../services/ListAllUsersService";
+import CreateUserService from "../services/CreateUserService";
 
 describe("Test user services on repository", () => {
   let createUserService: CreateUserService;

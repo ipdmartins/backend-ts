@@ -1,9 +1,9 @@
-import { UserProps, User } from "../../entities/user";
 import {
   FilteredUser,
   IUserRepository,
 } from "../IRepositories/IUserRepository";
 import { ErrorHandler } from "./errorHandler/errorHandler";
+import { User } from "../../entities/user";
 
 export default class InMemoryUserRepository implements IUserRepository {
   private userList: User[] = [];
@@ -30,7 +30,7 @@ export default class InMemoryUserRepository implements IUserRepository {
       }
 
       const data = {
-        uuid: response[0].uuid,
+        uuid: response[0].user_id,
         givenName: response[0].props.givenName,
         familyName: response[0].props.familyName,
         email: response[0].props.email,

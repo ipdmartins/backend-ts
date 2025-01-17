@@ -1,6 +1,6 @@
 import { Repository } from "typeorm";
-import { Coordinate } from "../entities/coordinate";
 import { ICoordinateRepository } from "./IRepositories/ICoordinateRepository";
+import { Coordinate } from "../entities/coordinate";
 
 export class CoordinateRepository implements ICoordinateRepository {
   constructor(private ormRepo: Repository<Coordinate>) {}

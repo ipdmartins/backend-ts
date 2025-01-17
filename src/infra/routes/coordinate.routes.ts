@@ -1,8 +1,8 @@
 import { Router } from "express";
-import CoordinateController from "../../controllers/CoordinateController";
-import { AppDataSource } from "../AppDataSource";
-import { Coordinate } from "../../entities/coordinate";
 import { CoordinateRepository } from "../../repositories/CoordianteRepository";
+import CoordinateController from "../../controllers/CoordinateController";
+import { Coordinate } from "../../entities/coordinate";
+import { AppDataSource } from "../AppDataSource";
 
 const coordinateRouter = Router();
 

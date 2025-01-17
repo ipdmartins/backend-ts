@@ -1,5 +1,5 @@
-import { Coordinate } from "../../entities/coordinate";
 import { ICoordinateRepository } from "../IRepositories/ICoordinateRepository";
+import { Coordinate } from "../../entities/coordinate";
 
 export class InMemoryCoordinateRepository implements ICoordinateRepository {
   items: Coordinate[] = [];

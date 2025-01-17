@@ -1,5 +1,5 @@
-import { LatLng } from "../entities/coordinate";
 import { ICoordinateRepository } from "../repositories/IRepositories/ICoordinateRepository";
+import { LatLng } from "../entities/coordinate";
 
 type CreateCoordinateOutput = {
   coordinate_id: string;

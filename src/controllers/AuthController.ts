@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import AuthUserService from "../services/AuthUserService";
 import UserRepository from "../repositories/UserRepository";
+import AuthUserService from "../services/AuthUserService";
 
 export default class AuthController {
   private authUserService: AuthUserService;

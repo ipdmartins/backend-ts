@@ -1,7 +1,7 @@
 import { AxiosResponse } from "axios";
-import { User } from "../entities/user";
-import axiosInstance from "../utils/conn";
 import { FilteredUser, IUserRepository } from "./IRepositories/IUserRepository";
+import axiosInstance from "../utils/conn";
+import { User } from "../entities/user";
 
 export default class UserRepository implements IUserRepository {
   public async create(user: User): Promise<void> {

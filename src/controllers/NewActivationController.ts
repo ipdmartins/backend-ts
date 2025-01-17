@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import UserRepository from "../repositories/UserRepository";
 import NodeMailerService from "../services/NodeMailerService";
+import UserRepository from "../repositories/UserRepository";
 
 export default class NewActivationController {
   private nodeMailerService: NodeMailerService;

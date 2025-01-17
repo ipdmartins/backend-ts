@@ -10,13 +10,9 @@ export default class CoordinateController {
 
   constructor(coordinateRepository: CoordinateRepository) {
     this.coordinateRepository = coordinateRepository;
-    console.log("criando createCoordinateService");
-
     this.createCoordinateService = new CreateCoordinateService(
       this.coordinateRepository
     );
-    console.log(this.createCoordinateService);
-
     this.listCoordinatesService = new ListCoordinatesService(
       this.coordinateRepository
     );

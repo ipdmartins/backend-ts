@@ -1,6 +1,6 @@
 import bcrypt from "bcrypt";
-import { User, UserProps } from "../entities/user";
 import UserRepository from "../repositories/UserRepository";
+import { User, UserProps } from "../entities/user";
 
 export default class CreateUserService {
   constructor(private userRepository: UserRepository) {
