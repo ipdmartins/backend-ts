@@ -8,7 +8,7 @@ jobs:
   tests:
     runs-on: ubuntu-latest
     env:
-      CI_ENV: true
+      CI_ENV: false
 
     steps:
       - name: Checkout repository
