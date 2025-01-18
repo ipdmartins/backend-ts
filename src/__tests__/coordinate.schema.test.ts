@@ -42,8 +42,8 @@ describe("testing coordinate schema", () => {
       expect(foundCoord.toJSON()).toStrictEqual(coord.toJSON());
     });
   } else {
-    test.skip("should create a coordinate schema", () => {
-      // Test logic
+    test.skip("should skip the test", () => {
+      expect(1).toBe(true);
     });
   }
 });
