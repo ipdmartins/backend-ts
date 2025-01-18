@@ -7,9 +7,9 @@ dotenv.config();
 
 describe("testing coordinate schema", () => {
   console.log("DEBUGGGG");
-  console.log(process.env.CI_ENV);
+  console.log(typeof process.env.CI_ENV);
 
-  if (process.env.CI_ENV) {
+  if (process.env.CI_ENV == "true") {
     console.log(process.env.CI_ENV);
 
     let dataSource = null as any;
