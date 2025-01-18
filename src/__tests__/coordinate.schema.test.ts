@@ -9,19 +9,21 @@ describe("testing coordinate schema", () => {
   if (process.env.CI_ENV) {
     let dataSource = null as any;
     beforeAll(async () => {
-      dataSource = new DataSource({
-        type: "postgres",
-        host: "localhost",
-        port: 5432,
-        username: process.env.DB_USER,
-        password: process.env.DB_PASSWORD,
-        database: process.env.DB_NAME,
-        synchronize: true,
-        logging: false,
-        entities: [CoordinateSchema],
-      });
+      if (process.env.CI_ENV) {
+        dataSource = new DataSource({
+          type: "postgres",
+          host: "localhost",
+          port: 5432,
+          username: process.env.DB_USER,
+          password: process.env.DB_PASSWORD,
+          database: process.env.DB_NAME,
+          synchronize: true,
+          logging: false,
+          entities: [CoordinateSchema],
+        });
 
-      await dataSource.initialize();
+        await dataSource.initialize();
+      }
     });
 
     test("create", async () => {
