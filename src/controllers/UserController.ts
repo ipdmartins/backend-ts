@@ -1,33 +1,36 @@
 import { Request, Response } from "express";
+import { IUserRepository } from "../repositories/IRepositories/IUserRepository";
 import ListAllUsersService from "../services/ListAllUsersService";
 import CreateUserService from "../services/CreateUserService";
 import UserRepository from "../repositories/UserRepository";
 
 export default class UserController {
-  private userRepository: UserRepository;
-  private createUserService: CreateUserService;
-  private listAllUsersService: ListAllUsersService;
+  private static instance: UserController;
+  private userRepository: IUserRepository;
 
-  constructor() {
-    this.userRepository = new UserRepository();
-    this.createUserService = new CreateUserService(this.userRepository);
-    this.listAllUsersService = new ListAllUsersService(this.userRepository);
+  private constructor() {
+    this.userRepository = UserRepository.getInstance();
     this.create = this.create.bind(this);
     this.listAll = this.listAll.bind(this);
   }
 
-  public async create(request: Request, response: Response): Promise<Response> {
-    const { givenName, familyName, phone, email, password } = request.body.data;
-
-    // Validate input
-    if (!givenName || !familyName || !phone || !email || !password) {
-      return response
-        .status(400)
-        .json({ error: "Missing parameters to create a user" });
+  public static getInstance(): UserController {
+    if (!UserController.instance) {
+      UserController.instance = new UserController();
     }
 
+    return UserController.instance;
+  }
+
+  public async create(request: Request, response: Response): Promise<Response> {
+    const { givenName, familyName, phone, email, password } = request.body;
+
     try {
-      const user = await this.createUserService.execute({
+      const createUserService = CreateUserService.getInstance(
+        this.userRepository
+      );
+
+      const user = await createUserService.execute({
         givenName,
         familyName,
         phone,
@@ -38,13 +41,16 @@ export default class UserController {
       return response.status(201).json(user);
     } catch (error) {
       console.error(error);
-      return response.status(500).json({ error: "Failed to create user" });
+      return response
+        .status(500)
+        .json({ error: "Failed to create user, try another email" });
     }
   }
 
   public async listAll(request: Request, response: Response) {
     try {
-      const users = await this.listAllUsersService.execute();
+      const listAllUsersService = ListAllUsersService.getInstance();
+      const users = await listAllUsersService.execute();
 
       return response.json(users);
     } catch (error) {

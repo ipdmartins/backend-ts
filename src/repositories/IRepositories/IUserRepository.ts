@@ -10,6 +10,6 @@ export type FilteredUser = {
 
 export interface IUserRepository {
   create(data: User): Promise<void>;
-  findByEmail(email: String): Promise<FilteredUser | null>;
+  findByEmail(email: String): Promise<User | null>;
   listAll(): Promise<User[]>;
 }

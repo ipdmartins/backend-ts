@@ -1,7 +1,8 @@
 import { DataSource } from "typeorm";
 import { CoordinateSchema } from "./db/typeorm/coordinate.schema";
+import { UserSchema } from "./db/typeorm/user.schema";
 
-export const AppDataSource = new DataSource({
+const AppDataSource = new DataSource({
   type: "postgres",
   host: "localhost",
   port: 5432,
@@ -10,5 +11,18 @@ export const AppDataSource = new DataSource({
   database: "test_db_pg", // From .env file
   synchronize: true,
   logging: false,
-  entities: [CoordinateSchema],
+  entities: [CoordinateSchema, UserSchema],
 });
+
+export const getDataSource = async (): Promise<DataSource> => {
+  if (!AppDataSource.isInitialized) {
+    try {
+      await AppDataSource.initialize();
+      console.log("Database connected successfully.");
+    } catch (error) {
+      console.error("Error initializing database:", error);
+      throw error;
+    }
+  }
+  return AppDataSource;
+};

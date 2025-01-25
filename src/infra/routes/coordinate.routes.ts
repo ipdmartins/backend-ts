@@ -1,23 +1,17 @@
 import { Router } from "express";
-import { CoordinateRepository } from "../../repositories/CoordianteRepository";
+import appContainer from "../../providers";
+import { ICoordinateRepository } from "../../repositories/IRepositories/ICoordinateRepository";
 import CoordinateController from "../../controllers/CoordinateController";
-import { Coordinate } from "../../entities/coordinate";
-import { AppDataSource } from "../AppDataSource";
 
 const coordinateRouter = Router();
 
-AppDataSource.initialize()
-  .then(() => {
-    const ormRepository = AppDataSource.getRepository(Coordinate);
-    const coordinateRepository = new CoordinateRepository(ormRepository);
-    const coordinateController = new CoordinateController(coordinateRepository);
+const coordinateRepository = appContainer.get<ICoordinateRepository>(
+  "ICoordinateRepository"
+);
 
-    coordinateRouter.post("/", coordinateController.create);
-    coordinateRouter.get("/", coordinateController.list);
-  })
-  .catch((error) => {
-    console.error("Error during Data Source initialization:", error);
-    process.exit(1);
-  });
+const coordinateController = new CoordinateController(coordinateRepository);
+
+coordinateRouter.post("/", coordinateController.create);
+coordinateRouter.get("/", coordinateController.listAll);
 
 export default coordinateRouter;

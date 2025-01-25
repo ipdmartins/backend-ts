@@ -1,7 +1,8 @@
+import { UserProps } from "../entities/user";
 import InMemoryUserRepository from "../repositories/inMemoryRepositories/InMemoryUserRepository";
 import { ErrorHandler } from "../repositories/inMemoryRepositories/errorHandler/errorHandler";
-import ListAllUsersService from "../services/ListAllUsersService";
 import CreateUserService from "../services/CreateUserService";
+import ListAllUsersService from "../services/ListAllUsersService";
 
 describe("Test user services on repository", () => {
   let createUserService: CreateUserService;
@@ -10,8 +11,8 @@ describe("Test user services on repository", () => {
 
   beforeEach(() => {
     inMemoryRepo = new InMemoryUserRepository();
-    createUserService = new CreateUserService(inMemoryRepo);
-    listAllUsersService = new ListAllUsersService(inMemoryRepo);
+    createUserService = new CreateUserService();
+    listAllUsersService = new ListAllUsersService();
   });
 
   it("should be able to create a new user", async () => {

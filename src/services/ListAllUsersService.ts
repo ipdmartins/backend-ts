@@ -1,23 +1,34 @@
 import UserRepository from "../repositories/UserRepository";
 
 export type UserPropsOutput = {
-  uuid: string;
+  user_id: string;
   givenName: String;
   familyName: String;
   phone: String;
   email: String;
   password: String;
-  createdAt: Date;
-  updatedAt: Date;
+  created_at: Date;
+  updated_at: Date;
 }[];
 
 export default class ListAllUsersService {
-  constructor(private userRepository: UserRepository) {
+  private static instance: ListAllUsersService;
+
+  constructor() {
     this.execute = this.execute.bind(this);
   }
 
+  public static getInstance(): ListAllUsersService {
+    if (!ListAllUsersService.instance) {
+      ListAllUsersService.instance = new ListAllUsersService();
+    }
+
+    return ListAllUsersService.instance;
+  }
+
   async execute(): Promise<UserPropsOutput> {
-    const users = await this.userRepository.listAll();
+    const userRepository = UserRepository.getInstance();
+    const users = await userRepository.listAll();
 
     return users.map((r) => r.toJSON());
   }

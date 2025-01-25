@@ -15,13 +15,22 @@ describe("testing coordinate schema", () => {
         port: 5432,
         username: process.env.DB_USER,
         password: process.env.DB_PASSWORD,
-        database: process.env.DB_NAME,
+        database: "tests_validation",
         synchronize: true,
         logging: false,
         entities: [CoordinateSchema],
       });
 
       await dataSource.initialize();
+    });
+
+    afterAll(async () => {
+      // Clean up the database table
+      const repository = dataSource.getRepository(CoordinateSchema);
+      await repository.clear(); // Deletes all records in the table
+
+      // Close the database connection
+      await dataSource.destroy();
     });
 
     test("create", async () => {

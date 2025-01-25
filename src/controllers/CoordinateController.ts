@@ -1,23 +1,20 @@
 import { Request, Response } from "express";
+import { injectable } from "inversify";
+import { ICoordinateRepository } from "../repositories/IRepositories/ICoordinateRepository";
 import { CreateCoordinateService } from "../services/CreateCoordinateService";
+import { ICoordinateController } from "./IControllers/ICoordinateController";
 import { ListCoordinatesService } from "../services/ListCoordinatesService";
-import { CoordinateRepository } from "../repositories/CoordianteRepository";
 
-export default class CoordinateController {
-  private coordinateRepository: CoordinateRepository;
+@injectable()
+export default class CoordinateController implements ICoordinateController {
   private createCoordinateService: CreateCoordinateService;
   private listCoordinatesService: ListCoordinatesService;
 
-  constructor(coordinateRepository: CoordinateRepository) {
-    this.coordinateRepository = coordinateRepository;
-    this.createCoordinateService = new CreateCoordinateService(
-      this.coordinateRepository
-    );
-    this.listCoordinatesService = new ListCoordinatesService(
-      this.coordinateRepository
-    );
+  constructor(coordinateRepo: ICoordinateRepository) {
+    this.createCoordinateService = new CreateCoordinateService(coordinateRepo);
+    this.listCoordinatesService = new ListCoordinatesService(coordinateRepo);
     this.create = this.create.bind(this);
-    this.list = this.list.bind(this);
+    this.listAll = this.listAll.bind(this);
   }
 
   public async create(request: Request, response: Response): Promise<Response> {
@@ -35,7 +32,10 @@ export default class CoordinateController {
     }
   }
 
-  public async list(_request: Request, response: Response): Promise<Response> {
+  public async listAll(
+    _request: Request,
+    response: Response
+  ): Promise<Response> {
     try {
       const coordinates = await this.listCoordinatesService.execute();
 
