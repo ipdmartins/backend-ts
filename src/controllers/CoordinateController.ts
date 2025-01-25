@@ -1,12 +1,9 @@
 import { Request, Response } from "express";
-import { injectable } from "inversify";
 import { ICoordinateRepository } from "../repositories/IRepositories/ICoordinateRepository";
 import { CreateCoordinateService } from "../services/CreateCoordinateService";
-import { ICoordinateController } from "./IControllers/ICoordinateController";
 import { ListCoordinatesService } from "../services/ListCoordinatesService";
 
-@injectable()
-export default class CoordinateController implements ICoordinateController {
+export default class CoordinateController {
   private createCoordinateService: CreateCoordinateService;
   private listCoordinatesService: ListCoordinatesService;
 

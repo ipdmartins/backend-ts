@@ -1,14 +1,12 @@
 import { Request, Response } from "express";
-import UserRepository from "../repositories/UserRepository";
+import { IUserRepository } from "../repositories/IRepositories/IUserRepository";
 import NodeMailerService from "../services/NodeMailerService";
 
 export default class PassResetController {
   private nodeMailerService: NodeMailerService;
-  private userRepository: UserRepository;
 
-  constructor() {
-    this.userRepository = new UserRepository();
-    this.nodeMailerService = new NodeMailerService(this.userRepository);
+  constructor(userRepository: IUserRepository) {
+    this.nodeMailerService = new NodeMailerService(userRepository);
     this.resetPass = this.resetPass.bind(this);
   }
 

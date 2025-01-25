@@ -1,14 +1,12 @@
 import { Request, Response } from "express";
+import { IUserRepository } from "../repositories/IRepositories/IUserRepository";
 import NodeMailerService from "../services/NodeMailerService";
-import UserRepository from "../repositories/UserRepository";
 
 export default class NewActivationController {
   private nodeMailerService: NodeMailerService;
-  private userRepository: UserRepository;
 
-  constructor() {
-    this.userRepository = new UserRepository();
-    this.nodeMailerService = new NodeMailerService(this.userRepository);
+  constructor(userRepository: IUserRepository) {
+    this.nodeMailerService = new NodeMailerService(userRepository);
     this.sendActivation = this.sendActivation.bind(this);
   }
 

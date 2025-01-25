@@ -1,7 +1,7 @@
 import { Router } from "express";
-import appContainer from "../../providers";
 import { ICoordinateRepository } from "../../repositories/IRepositories/ICoordinateRepository";
 import CoordinateController from "../../controllers/CoordinateController";
+import appContainer from "../../providers";
 
 const coordinateRouter = Router();
 

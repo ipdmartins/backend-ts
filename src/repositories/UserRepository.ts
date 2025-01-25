@@ -1,54 +1,33 @@
 import { Repository } from "typeorm";
+import { injectable } from "inversify";
 import { IUserRepository } from "./IRepositories/IUserRepository";
 import { getDataSource } from "../infra/AppDataSource";
 import { User } from "../entities/user";
 
-export default class UserRepository implements IUserRepository {
-  private static instance: UserRepository;
-  private ormRepo: Repository<User>;
+@injectable()
+export class UserRepository implements IUserRepository {
+  private ormRepo: Repository<User> | null = null;
 
-  private constructor() {
-    getDataSource().then((dataSource) => {
-      this.ormRepo = dataSource.getRepository(User);
-    });
-  }
-
-  public static getInstance(): UserRepository {
-    if (!UserRepository.instance) {
-      UserRepository.instance = new UserRepository();
-      UserRepository.instance;
-    }
-
-    return UserRepository.instance;
-  }
-
-  // private async getRepo() {
-  //   if (!this.ormRepo) {
-  //     const con = await getDataSource();
-  //     this.ormRepo = con.getRepository(User);
-  //   }
-  // }
-
-  private ensureRepoReady() {
+  private async getRepo(): Promise<Repository<User>> {
     if (!this.ormRepo) {
-      throw new Error(
-        "Repository is not ready yet. Ensure DataSource is initialized."
-      );
+      const con = await getDataSource();
+      this.ormRepo = con.getRepository(User);
     }
+    return this.ormRepo;
   }
 
   public async create(user: User): Promise<void> {
-    await this.ensureRepoReady();
-    await this.ormRepo!.save(user);
+    const repo = await this.getRepo();
+    await repo!.save(user);
   }
 
   public async findByEmail(email: String): Promise<User | null> {
-    await this.ensureRepoReady();
-    return this.ormRepo!.findOneBy({ email });
+    const repo = await this.getRepo();
+    return repo!.findOneBy({ email });
   }
 
   public async listAll(): Promise<User[]> {
-    await this.ensureRepoReady();
-    return this.ormRepo!.find();
+    const repo = await this.getRepo();
+    return repo!.find();
   }
 }

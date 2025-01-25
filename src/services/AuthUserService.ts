@@ -1,9 +1,9 @@
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
-import UserRepository from "../repositories/UserRepository";
+import { IUserRepository } from "../repositories/IRepositories/IUserRepository";
 
 export default class AuthUserService {
-  constructor(private userRepository: UserRepository) {
+  constructor(private userRepository: IUserRepository) {
     this.execute = this.execute.bind(this);
   }
 
@@ -19,14 +19,18 @@ export default class AuthUserService {
 
     if (!isValidPassword) return null;
 
-    const token = jwt.sign({ id: user.uuid, email: user.email }, "secret_key", {
-      expiresIn: "12h",
-    });
+    const token = jwt.sign(
+      { id: user.user_id, email: user.email },
+      "secret_key",
+      {
+        expiresIn: "12h",
+      }
+    );
 
     const data = {
       token,
       user: {
-        uuid: user.uuid,
+        user_id: user.user_id,
         givenName: user.givenName,
         familyName: user.familyName,
         email: user.email,

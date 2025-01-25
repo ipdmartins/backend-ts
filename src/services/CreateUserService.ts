@@ -1,21 +1,10 @@
 import bcrypt from "bcrypt";
-import UserRepository from "../repositories/UserRepository";
-import { User, UserProps } from "../entities/user";
 import { IUserRepository } from "../repositories/IRepositories/IUserRepository";
+import { User, UserProps } from "../entities/user";
 
 export default class CreateUserService {
-  private static instance: CreateUserService;
-
   constructor(private userRepo: IUserRepository) {
     this.execute = this.execute.bind(this);
-  }
-
-  public static getInstance(userRepo: IUserRepository): CreateUserService {
-    if (!CreateUserService.instance) {
-      CreateUserService.instance = new CreateUserService(userRepo);
-    }
-
-    return CreateUserService.instance;
   }
 
   async execute({

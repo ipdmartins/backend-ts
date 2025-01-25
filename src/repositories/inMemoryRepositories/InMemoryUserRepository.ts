@@ -1,7 +1,4 @@
-import {
-  FilteredUser,
-  IUserRepository,
-} from "../IRepositories/IUserRepository";
+import { IUserRepository } from "../IRepositories/IUserRepository";
 import { ErrorHandler } from "./errorHandler/errorHandler";
 import { User } from "../../entities/user";
 

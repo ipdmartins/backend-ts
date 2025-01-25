@@ -1,14 +1,12 @@
 import { Request, Response } from "express";
-import UserRepository from "../repositories/UserRepository";
+import { IUserRepository } from "../repositories/IRepositories/IUserRepository";
 import AuthUserService from "../services/AuthUserService";
 
 export default class AuthController {
   private authUserService: AuthUserService;
-  private userRepository: UserRepository;
 
-  constructor() {
-    this.userRepository = new UserRepository();
-    this.authUserService = new AuthUserService(this.userRepository);
+  constructor(userRepository: IUserRepository) {
+    this.authUserService = new AuthUserService(userRepository);
     this.authenticate = this.authenticate.bind(this);
   }
 

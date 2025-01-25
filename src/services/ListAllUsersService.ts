@@ -1,4 +1,4 @@
-import UserRepository from "../repositories/UserRepository";
+import { IUserRepository } from "../repositories/IRepositories/IUserRepository";
 
 export type UserPropsOutput = {
   user_id: string;
@@ -12,23 +12,12 @@ export type UserPropsOutput = {
 }[];
 
 export default class ListAllUsersService {
-  private static instance: ListAllUsersService;
-
-  constructor() {
+  constructor(private userRepository: IUserRepository) {
     this.execute = this.execute.bind(this);
   }
 
-  public static getInstance(): ListAllUsersService {
-    if (!ListAllUsersService.instance) {
-      ListAllUsersService.instance = new ListAllUsersService();
-    }
-
-    return ListAllUsersService.instance;
-  }
-
   async execute(): Promise<UserPropsOutput> {
-    const userRepository = UserRepository.getInstance();
-    const users = await userRepository.listAll();
+    const users = await this.userRepository.listAll();
 
     return users.map((r) => r.toJSON());
   }

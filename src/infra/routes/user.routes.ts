@@ -1,10 +1,14 @@
 import { celebrate, Segments, Joi } from "celebrate";
 import { Router } from "express";
+import { IUserRepository } from "../../repositories/IRepositories/IUserRepository";
 import UserController from "../../controllers/UserController";
+import appContainer from "../../providers";
+
+const userRepository = appContainer.get<IUserRepository>("IUserRepository");
 
 const userRouter = Router();
 
-const userController = UserController.getInstance();
+const userController = new UserController(userRepository);
 
 userRouter.post(
   "/",

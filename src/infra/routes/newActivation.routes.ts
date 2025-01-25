@@ -1,9 +1,13 @@
 import { Router } from "express";
+import { IUserRepository } from "../../repositories/IRepositories/IUserRepository";
 import NewActivationController from "../../controllers/NewActivationController";
+import appContainer from "../../providers";
 
 const newActivationRouter = Router();
 
-const newActivationController = new NewActivationController();
+const userRepository = appContainer.get<IUserRepository>("IUserRepository");
+
+const newActivationController = new NewActivationController(userRepository);
 
 newActivationRouter.post("/", newActivationController.sendActivation);
 

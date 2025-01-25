@@ -2,35 +2,23 @@ import { Request, Response } from "express";
 import { IUserRepository } from "../repositories/IRepositories/IUserRepository";
 import ListAllUsersService from "../services/ListAllUsersService";
 import CreateUserService from "../services/CreateUserService";
-import UserRepository from "../repositories/UserRepository";
 
 export default class UserController {
-  private static instance: UserController;
-  private userRepository: IUserRepository;
+  private createUserService: CreateUserService;
+  private listAllUsersService: ListAllUsersService;
 
-  private constructor() {
-    this.userRepository = UserRepository.getInstance();
+  constructor(userRepository: IUserRepository) {
+    this.createUserService = new CreateUserService(userRepository);
+    this.listAllUsersService = new ListAllUsersService(userRepository);
     this.create = this.create.bind(this);
     this.listAll = this.listAll.bind(this);
-  }
-
-  public static getInstance(): UserController {
-    if (!UserController.instance) {
-      UserController.instance = new UserController();
-    }
-
-    return UserController.instance;
   }
 
   public async create(request: Request, response: Response): Promise<Response> {
     const { givenName, familyName, phone, email, password } = request.body;
 
     try {
-      const createUserService = CreateUserService.getInstance(
-        this.userRepository
-      );
-
-      const user = await createUserService.execute({
+      const user = await this.createUserService.execute({
         givenName,
         familyName,
         phone,
@@ -49,8 +37,7 @@ export default class UserController {
 
   public async listAll(request: Request, response: Response) {
     try {
-      const listAllUsersService = ListAllUsersService.getInstance();
-      const users = await listAllUsersService.execute();
+      const users = await this.listAllUsersService.execute();
 
       return response.json(users);
     } catch (error) {

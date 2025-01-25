@@ -11,8 +11,8 @@ describe("Test user services on repository", () => {
 
   beforeEach(() => {
     inMemoryRepo = new InMemoryUserRepository();
-    createUserService = new CreateUserService();
-    listAllUsersService = new ListAllUsersService();
+    createUserService = new CreateUserService(inMemoryRepo);
+    listAllUsersService = new ListAllUsersService(inMemoryRepo);
   });
 
   it("should be able to create a new user", async () => {

@@ -1,10 +1,10 @@
 import nodemailer from "nodemailer";
 import dotenv from "dotenv";
+import { IUserRepository } from "../repositories/IRepositories/IUserRepository";
 dotenv.config();
-import UserRepository from "../repositories/UserRepository";
 
 export default class NodeMailerService {
-  constructor(private userRepository: UserRepository) {
+  constructor(private userRepository: IUserRepository) {
     this.execute = this.execute.bind(this);
   }
 
